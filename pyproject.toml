@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "delivery-driver"
+version = "0.1.0"
+description = "CLI tool for distributing music via IPFS and BitTorrent"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "Cryptograss", email = "info@cryptograss.com" }
+]
+dependencies = [
+    "click>=8.0",
+    "httpx>=0.25",
+    "torf>=4.0",          # Torrent file creation
+    "mutagen>=1.47",      # Audio metadata reading
+    "rich>=13.0",         # Pretty CLI output
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+]
+
+[project.scripts]
+delivery-driver = "delivery_driver.cli:main"
+dd = "delivery_driver.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["delivery_driver"]
