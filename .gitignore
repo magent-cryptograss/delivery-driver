@@ -25,6 +25,7 @@ venv/
 ENV/
 env/
 .venv/
+.pytest_cache/
 
 # IDE
 .idea/

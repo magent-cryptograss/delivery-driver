@@ -74,14 +74,21 @@ def get_torrent_info(torrent_path: Path) -> dict:
     """Read info from an existing torrent file."""
     torrent = Torrent.read(torrent_path)
 
+    # Flatten tracker tiers into a single list
+    # torf stores trackers as tiers (list of lists)
+    trackers = []
+    for tier in torrent.trackers:
+        for tracker in tier:
+            trackers.append(str(tracker))
+
     return {
         'name': torrent.name,
         'info_hash': str(torrent.infohash),
         'size': torrent.size,
         'piece_size': torrent.piece_size,
-        'num_pieces': len(torrent.pieces),
+        'num_pieces': torrent.pieces if isinstance(torrent.pieces, int) else len(torrent.pieces),
         'files': [str(f) for f in torrent.files],
-        'trackers': list(torrent.trackers),
+        'trackers': trackers,
         'web_seeds': list(torrent.webseeds) if torrent.webseeds else [],
         'comment': torrent.comment,
         'created_by': torrent.created_by,
